@@ -1,6 +1,10 @@
 import { Container, Typography } from '@mui/material'
 import { NewsCard } from '/components'
 
+import { Pagination, Autoplay } from '@mui/material'
+import { Swiper, SwiperSlide} from 'swiper/react'
+import 'swiper/css/bundle'
+
 
 export default function News({data, title, limit}) {
     if(!data) return <div>Caricamento...</div>
@@ -23,9 +27,30 @@ export default function News({data, title, limit}) {
                 {title}
             </Typography>
             {
-                data.map((post) => (
+                
+                <Swiper
+                modules={[Pagination, Autoplay]}
+                autoplay
+                pagination={{ clickable: true }}
+                slidesPerView={1}
+                spaceBetween={10}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                  },
+                  1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                  },
+                }}
+              >
+                {data.map((post) => (
+                  <SwiperSlide>
                     <NewsCard post={post} />
-                ))
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             }
         </Container>
     )
